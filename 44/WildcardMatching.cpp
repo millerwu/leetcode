@@ -20,33 +20,53 @@ isMatch("aab", "c*a*b") → false
 */
 
 #include <iostream>
+#include <string>
 
 class Solution {
 public:
-    bool isMatch(string s, string p) {
+    static bool isMatch(string s, string p) {
 
     	int s_index = 0;
+        int p_index = 0;
+        int last_s = -1;
+        int last_p = -1;
 
-        for (int i = 0; i < p.size(); ++i)
-        {
-        	if (p[i] == '*')
-        	{
-        		for (int j = index; j < s.size(); ++j)
-        		{
-        			
-        		}
-        	} else if (p[i] == '?' || p[i] == s[s_index])
-        	{
-        		s_index++;
-        	} else {
-        		return false;
-        	}
-        	
+        while (s_index < s.size()) {
+            if (p[p_index] == '*')
+            {
+                p_index++;
+                if (p_index == p.size())
+                {
+                    return true;
+                }
+                //for store the index of last '*' pos
+                last_p = p_index;
+                last_s = s_index;
+            } else if (p[p_index] == s[s_index] || p[p_index] == '?') {
+                p_index++;
+                s_index++;
+            } else if (last_s != -1) {
+                //if the char is not match; than roll back to last '*' position.
+                p_index = last_p;
+                s_index = ++last_s;
+            } else {
+                return false;
+            }
         }
+        while (p[p_index] == '*')
+            p_index++;
+
+        return p_index==p.size();
     }
 };
 
 int main ()
 {
+    string s = "aa";
+    string p = "*a";
+    bool match = Solution::isMatch(s, p);
+
+    cout << "match = " << match << endl;
+
 	return 0;
 }
