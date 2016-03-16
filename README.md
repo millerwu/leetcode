@@ -1,4 +1,3 @@
-# leetcode solution by Wu MiaoLiang
-# leetcode
+ #leetcode solution by Wu MiaoLiang
 # leetcode
 # leetcode
