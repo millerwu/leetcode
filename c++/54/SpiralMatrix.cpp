@@ -40,7 +40,6 @@ public:
 			{
 				for (int i = current_x; i < max_x; i++)
 				{
-					cout << " " << matrix[current_y][i] << endl;
 					res.push_back(matrix[current_y][i]);
 				}
 				current_y++;
