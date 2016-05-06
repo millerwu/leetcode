@@ -14,23 +14,53 @@ A = [3,2,1,0,4], return false.
 */
 
 #include <iostream>
+#include <vector>
 
 class Solution {
 public:
-    bool canJump(vector<int>& nums) {
-		int max_reach = 0;
-		for(int i = 0; i < nums.size();)
+    static bool canJump(vector<int>& nums) {
+		if (nums.size() <= 1)
 		{
-			max_reach
-			for(int j = i; j < max_reach; j++)
+			return true;
+		}
+		if (nums[0] == 0)
+		{
+		    return false;
+		}
+		bool flag = false;
+		for (int i = 1; i < nums.size()-1; i++)
+		{
+		    flag = false;
+			if (nums[i] == 0)
 			{
+				for (int j = i-1; j >= 0; j--)
+				{
+					if ((i - j) < (nums[j] - nums[i]))
+					{
+						flag = true;
+						break;
+					}
+				}
+				if (!flag)
+				{
+					return false;
+				}
 				
 			}
 		}
+		return true;
     }
 };
 
 int main ()
 {
+	vector<int> nums;
+	nums.push_back(0);
+	// nums.push_back(0);
+	// nums.push_back(0);
+	// nums.push_back(1);
+	// nums.push_back(4);
+	bool res = Solution::canJump(nums);
+	cout<< res << endl;
 	return 0;
 }
