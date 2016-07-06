@@ -19,56 +19,38 @@ Given n and k, return the kth permutation sequence.
 
 class Solution {
 public:
-        static void nextPermutation(vector<int>& nums) {
-    	if (nums.size() <= 1)
-    	{
-    		return;
-    	}
-
-    	int place = nums.size() - 1;
-    	int i = 0;
-    	while (place > 0) {
-    		if (nums[place] <= nums[place-1]) {
-    			place--;
-    			continue;
-    		}
-    		int j =  nums.size() -1;
-    		while (nums[place-1] >= nums[j])
-    		{
-    			j--;
-    		}
-
-    		int tmp = nums[place-1];
-    		nums[place-1] = nums[j];
-    		nums[j] = tmp;
-
-    		sort(nums.begin()+place, nums.end());
-    		return;
-    	}
-
-    	sort(nums.begin(), nums.end());
-    }
-    static string getPermutation(int n, int k) {
-        string res;
-        if (n == 0)
-        {
-            return res;
+    string getPermutation(int n, int k) {
+        vector<int> num;
+        int total = 1;
+        for(int i=1; i<=n; i++){
+            num.push_back(i);
+            total *= i;
         }
-        vector<int> v;
-        for (int i = 1; i <= n; i++)
-        {
-            v.push_back(i);
+    
+        //invalid k;
+        if( total < k ) {
+            return "";
         }
-        for (int i = 1; i <= k; i++)
-        {
-            nextPermutation(v);
+    
+        // Construct the k-th permutation with a list of n numbers
+        // Idea: group all permutations according to their first number (so n groups, each of
+        // (n-1)! numbers), find the group where the k-th permutation belongs, remove the common
+        // first number from the list and append it to the resulting string, and iteratively
+        // construct the (((k-1)%(n-1)!)+1)-th permutation with the remaining n-1 numbers
+        int group = total;
+        stringstream ss;
+        while (n>0) {
+            group = group / n;
+            int idx = (k-1) / group;
+            ss << num[idx];
+            num.erase(num.begin()+idx);
+            n--;
+            //the next k also can be caculated like this: 
+            //    k = (k-1)%group + 1; 
+            k -= group * idx;
         }
-        
-        for (int i = 0; i < n; i++)
-        {
-            res.append(v[i]);
-        }
-        return res;
+    
+        return ss.str();
     }
 };
 
