@@ -18,15 +18,74 @@ The signature of the C++ function had been updated. If you still see your functi
 */
 
 #include <iostream>
+#include <string>
+#include <ctype.h>
+
+using namespace std;
 
 class Solution {
 public:
-    bool isNumber(string s) {
-        
+    static bool isNumber(string s) {
+        if(s.size() == 0)
+		{
+			return false;
+		}
+
+		if ( s[0] == 'e' || s[s.size()-1] == 'e')
+			return false;
+		
+		bool spacein = false;
+		bool spaceout = false;
+		bool pointonce = false;
+		bool eonce = false;
+		for (int i = 0; i < s.size(); i++)
+		{
+			cout << " " << s[i];
+			if (!isdigit(s[i]) && s[i]!='e' && s[i]!=' ' && s[i]!='.')
+			return false;
+
+			if (!spacein)
+			{
+				spacein = s[i]!=' ';
+				continue;
+			}
+			if (s[i] == ' ')
+			{
+				spaceout = true;
+				continue;
+			} else {
+				if (spaceout)
+					return false;
+			}
+			if (s[i] == '.')
+			{
+				if (!pointonce)
+				{
+					pointonce = true;
+				} else {
+					return false;
+				}
+			}
+			if (s[i] == 'e')
+			{
+				if (!eonce)
+				{
+					eonce = true;
+				} else {
+					return false;
+				}
+			}
+			
+		}
+		if (s[0]==' ' && !spacein)
+			return false;
+		return true;
     }
 };
 
 int main ()
 {
+	string s1 = "   .";
+	cout << "res = " << Solution::isNumber(s1) << endl;
 	return 0;
 }
