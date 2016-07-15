@@ -1,4 +1,5 @@
 //source: https://leetcode.com/problems/valid-number/
+//
 
 /*
 Validate if a given string is numeric.
@@ -23,6 +24,11 @@ The signature of the C++ function had been updated. If you still see your functi
 
 using namespace std;
 
+bool isspace(const char c)
+{
+	return (c == ' ' || c == '\t' || c=='\n' || c=='\r' || c=='\f' || c=='\v');
+}
+
 class Solution {
 public:
     static bool isNumber(string s) {
@@ -30,62 +36,97 @@ public:
 		{
 			return false;
 		}
-
-		if ( s[0] == 'e' || s[s.size()-1] == 'e')
-			return false;
 		
-		bool spacein = false;
-		bool spaceout = false;
-		bool pointonce = false;
-		bool eonce = false;
-		for (int i = 0; i < s.size(); i++)
-		{
-			cout << " " << s[i];
-			if (!isdigit(s[i]) && s[i]!='e' && s[i]!=' ' && s[i]!='.')
-			return false;
+		int index = 0;
+		while (isspace(s[index]))
+			index++;
 
-			if (!spacein)
+		if (s[index] == '\0') return false;
+
+		if (s[index] == '-' || s[index]=='+')
+			index++;
+		bool hasE = false;
+		bool point = false;
+
+		const int head = index;
+		
+		while (index < s.size())
+		{
+			// if meet '.'
+			if (s[index] == '.')
 			{
-				spacein = s[i]!=' ';
-				continue;
-			}
-			if (s[i] == ' ')
-			{
-				spaceout = true;
-				continue;
-			} else {
-				if (spaceout)
-					return false;
-			}
-			if (s[i] == '.')
-			{
-				if (!pointonce)
+				if (hasE || point)
 				{
-					pointonce = true;
-				} else {
 					return false;
 				}
+				if (head==index && !isdigit(s[index+1]) )
+					return false;
+				point = true;
+				index++;
+				continue;
 			}
-			if (s[i] == 'e')
+			// if meet 'e'
+			if (s[index] == 'e')
 			{
-				if (!eonce)
+				if (hasE || index == head)
 				{
-					eonce = true;
-				} else {
 					return false;
 				}
+				index++;
+				if (s[index] == '-' || s[index] == '+')
+					index++;
+				if (!isdigit(s[index]))
+					return false;
+				hasE = true;
+				index++;
+				continue;
 			}
-			
+			//if meet ' '
+			if (s[index] == ' ')
+			{
+				index++;
+				while (index < s.size())
+				{
+					if (s[index++] == ' ')
+						continue;
+					else {
+						return false;
+					}
+				}
+				return true;
+			}
+			if (!isdigit(s[index]))
+				return false;
+			index++;
 		}
-		if (s[0]==' ' && !spacein)
-			return false;
 		return true;
     }
 };
 
+#define TEST(x) cout << x << " res = " << Solution::isNumber(x) << endl
 int main ()
 {
-	string s1 = "   .";
-	cout << "res = " << Solution::isNumber(s1) << endl;
+	string s1 = "   ";
+	TEST("1e1");
+	TEST("1.044");
+    TEST(" 1.044 ");
+    TEST("1.a");
+    TEST("abc");
+    TEST("e");
+    TEST("0e ");
+    TEST("1e2");
+    TEST("");
+    TEST(" ");
+    TEST("1.");
+    TEST(".2");
+    TEST(" . ");
+    TEST(".");
+    TEST("1.2.3");
+    TEST("1e2e3");
+    TEST("1..");
+    TEST("+1.");
+    TEST(" -1.");
+    TEST("6e6.5");
+    TEST("005047e+6");
 	return 0;
 }
