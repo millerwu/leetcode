@@ -7,15 +7,48 @@ Here, we will use the integers 0, 1, and 2 to represent the color red, white, an
 */
 
 #include <iostream>
+#include <vector>
+
+using namespace std;
 
 class Solution {
 public:
-    void sortColors(vector<int>& nums) {
-        
+    static void swap(int& a, int& b)
+    {
+        int i = 0;
+        i = a;
+        a = b;
+        b = i;
+    }
+
+    static void sortColors(vector<int>& nums) {
+        if (nums.size() <= 1)
+        {
+            return;
+        }
+        for (int i = 0; i < nums.size()-1; ++i)
+        {
+            for (int j = 0; j < nums.size()-i-1; ++j)
+            {
+                if (nums[j] > nums[j+1])
+                {
+                    swap(nums[j], nums[j+1]);
+                }
+            }
+        }
     }
 };
 
 int main ()
 {
+    vector<int> test;
+    test.push_back(1);
+    test.push_back(2);
+    test.push_back(0);
+    Solution::sortColors(test);
+    for (int i = 0; i < test.size(); ++i)
+    {
+        cout << test[i] << endl;
+    }
 	return 0;
 }
