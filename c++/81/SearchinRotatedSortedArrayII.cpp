@@ -14,6 +14,7 @@ Write a function to determine if a given target is in the array.
 class Solution {
 public:
     bool search(vector<int>& nums, int target) {
+    	
         
     }
 };
