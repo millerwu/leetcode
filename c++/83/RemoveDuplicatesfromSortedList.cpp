@@ -10,22 +10,59 @@ Given 1->1->2->3->3, return 1->2->3.
 
 #include <iostream>
 
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
+using namespace std;
+
+ struct ListNode {
+     int val;
+     ListNode *next;
+     ListNode(int x) : val(x), next(NULL) {}
+ };
+
 class Solution {
 public:
-    ListNode* deleteDuplicates(ListNode* head) {
-        
+    static ListNode* deleteDuplicates(ListNode* head) {
+    	// if ()
+    	ListNode* n = new ListNode(0);
+    	n->next = head;
+    	while (n->next!=NULL && n->next->next!=NULL)
+    	{
+		if (n->next->val == n->next->next->val)
+		{
+			n->next ->next = n->next->next->next;
+			continue;
+		} 
+		n = n->next;
+    	}
+    	return head;
     }
 };
 
+void printList(ListNode* node)
+{
+	while (node!=NULL)
+	{
+		cout<< node->val << " ";
+		node = node->next;
+	}
+	cout << endl;
+
+}
+
 int main ()
 {
-	return 0;
+	ListNode* l1 = new ListNode(1);
+	ListNode* l11 = new ListNode(1);
+	ListNode* l111 = new ListNode(1);
+	l1->next = l11;
+	l11->next = l111;
+	// ListNode* l2 = new ListNode(2);
+	// l11->next = l2;
+	// ListNode* l22 = new ListNode(2);
+	// l2->next = l22;
+	// ListNode* l3 = new ListNode(3);
+	// l22->next = l3;
+
+	printList(l1);
+	ListNode* tl = Solution::deleteDuplicates(l1);
+	printList(tl);
 }

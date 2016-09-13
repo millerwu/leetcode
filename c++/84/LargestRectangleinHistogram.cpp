@@ -15,15 +15,58 @@ return 10.
 */
 
 #include <iostream>
+#include <vector>
+
+using namespace std;
 
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& heights) {
-        
+
+    static int largestRectangleArea(vector<int>& heights) {
+
+    }
+
+    // This solution will be time limit exceeded
+    static int largestRectangleArea1(vector<int>& heights) {
+        if (heights.size() <= 0)
+        {
+        	return 0;
+        }
+        int maxArea = 0;
+        for (int i = 0; i < heights.size(); ++i)
+        {
+        	int lowest = heights[i];
+        	for (int j = i; j >=0 ; --j)
+        	{
+        		lowest = heights[j] > lowest ? lowest : heights[j];
+        		int area = lowest * (i-j+1);
+        		maxArea = maxArea > area ? maxArea : area;
+        	}
+        }
+        return maxArea;
     }
 };
 
+void printVector(std::vector<int> v)
+{
+	for (int i = 0; i < v.size(); ++i)
+	{
+	}
+}
+
 int main ()
 {
+	vector<int> test;
+	test.push_back(1);
+	test.push_back(1);
+	test.push_back(5);
+	test.push_back(6);
+	test.push_back(2);
+	test.push_back(3);
+
+	int res = Solution::largestRectangleArea(test);
+
+	cout << "res = " << res << endl;
+
 	return 0;
 }
