@@ -23,7 +23,59 @@ class Solution {
 public:
 
     static int largestRectangleArea(vector<int>& heights) {
+        if (heights.size() <= 0)
+        {
+            return 0;
+        }
+        std::vector<int> stack;
+        int maxArea = 0;
 
+        for (int i = 0; i < heights.size(); ++i)
+        {
+            cout << "heights index = " << i << " value = " << heights[i] << endl;
+            if (stack.empty() || heights[i]>= heights[stack.back()])
+            {
+                stack.push_back(i);
+                continue;
+            }
+            cout<< "stack back = " << stack.back() << endl;
+            int last_height = heights[stack.back()];
+            // int index = stack.back();
+            stack.pop_back();
+            cout<< "last_height = " << last_height << endl;
+            int area = 0;
+            if (stack.empty())
+            {
+                area = last_height*(i);
+            } else {
+                area = last_height*(i - stack.back() - 1);
+            }
+            cout << " area = " << area << endl;
+            maxArea = maxArea > area ? maxArea : area;
+            
+            i--;
+        }
+
+        while (!stack.empty())
+        {
+            cout<< "stack back = " << stack.back() << endl;
+            int last_height = heights[stack.back()];
+            cout<< "last_height = " << last_height << endl;
+            stack.pop_back();
+
+            if (stack.empty())
+            {
+                int area = last_height*heights.size();
+                cout << " area = " << area << endl;
+                maxArea = maxArea > area ? maxArea : area;
+                /* code */
+            } else {
+                int area = last_height*(heights.size() - stack.back()-1);
+                cout << " area = " << area << endl;
+                maxArea = maxArea > area ? maxArea : area;
+            }
+        }
+        return maxArea;
     }
 
     // This solution will be time limit exceeded
@@ -57,12 +109,26 @@ void printVector(std::vector<int> v)
 int main ()
 {
 	vector<int> test;
-	test.push_back(1);
-	test.push_back(1);
-	test.push_back(5);
-	test.push_back(6);
-	test.push_back(2);
-	test.push_back(3);
+	// test.push_back(2);
+	// test.push_back(1);
+	// test.push_back(5);
+	// test.push_back(6);
+	// test.push_back(2);
+	// test.push_back(3);
+
+    test.push_back(5);
+    test.push_back(4);
+    test.push_back(1);
+    test.push_back(2);
+
+    // test.push_back(3);
+    // test.push_back(6);
+    // test.push_back(5);
+    // test.push_back(7);
+    // test.push_back(4);
+    // test.push_back(8);
+    // test.push_back(1);
+    // test.push_back(0);
 
 	int res = Solution::largestRectangleArea(test);
 
