@@ -50,6 +50,7 @@ public:
 			inorderTraversalHelper(root, res);
 			return res;
 		}
+    // use stack
     static vector<int> inorderTraversal(TreeNode* root) {
     	std::vector<int> res_;
     	std::vector<TreeNode*> stack_;
@@ -84,6 +85,37 @@ public:
       }
       return res_;
     }
+    // use another method
+    static vector<int> inorderTraversal_thread(TreeNode* root) {
+      vector<int> res;
+      if (root == NULL)
+      {
+        return res;
+      }
+      TreeNode* cur = root;
+      TreeNode* pre = root;
+      while (cur != NULL) {
+        if (cur->left == NULL) {
+          res.push_back(cur->val);
+          cur = cur->right;
+        } else {
+          pre = cur->left;
+
+          while (pre->right != NULL && pre->right != cur)
+            pre = pre->right;
+
+          if (pre->right != NULL) {
+            pre->right = NULL;
+            res.push_back(cur->val);
+            cur = cur->right;
+          } else {
+            pre->right = cur;
+            cur = cur->left;
+          }
+        }
+      }
+      return res;
+    }
 };
 
 void printVectorInt(std::vector<int> v)
@@ -102,7 +134,7 @@ int main ()
 	TreeNode t3(3);
 	t1.right = &t2;
 	t2.left = &t3;
-	std::vector<int> res = Solution::inorderTraversal_Recursive(&t1);
+	std::vector<int> res = Solution::inorderTraversal_thread(&t1);
 	printVectorInt(res);
 	return 0;
 }
