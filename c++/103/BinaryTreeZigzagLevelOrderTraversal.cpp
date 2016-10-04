@@ -31,8 +31,52 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
-vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        
+vector<vector<int> > zigzagLevelOrder(TreeNode* root) {
+  vector<vector<int> > res;
+  if (root == NULL)
+  {
+    return res;
+  }
+  vector<int> val;
+  vector<TreeNode*> parent;
+  vector<TreeNode*> stack;
+  parent.push_back(root);
+  bool forward = true;
+  while (parent.size() > 0)
+  {
+    while (parent.size() > 0)
+    {
+      TreeNode* node = parent.back();
+      val.push_back(node->val);
+      parent.pop_back();
+      if (forward)
+      {
+        if (node->left != NULL)
+        {
+          stack.push_back(node->left);
+        }
+        if (node->right != NULL)
+        {
+          stack.push_back(node->right);
+        }
+      } else {
+        if (node->right != NULL)
+        {
+          stack.push_back(node->right);
+        }
+        if (node->left != NULL)
+        {
+          stack.push_back(node->left);
+        }
+      }
+    }
+    res.push_back(val);
+    val.clear();
+    parent = stack;
+    stack.clear();
+    forward = !forward;
+  }
+  return res;
 }
 
 int main ()
