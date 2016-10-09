@@ -27,8 +27,40 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+bool hasPathSumHelper(TreeNode* root, int sum){
+  cout << "val = " << root->val << " sum = " << sum << endl;
+  if (root->left == NULL && root->right == NULL)
+  {
+    return (sum - root->val) == 0; 
+  }
+  if (root->left != NULL && root->right != NULL)
+  {
+    return hasPathSumHelper(root->left, sum - root->val) || hasPathSumHelper(root->right, sum - root->val);
+  }
+  else if (root->right != NULL)
+  {
+    return hasPathSumHelper(root->right, sum - root->val);
+  } else {
+      return hasPathSumHelper(root->left, sum - root->val);
+  }
+
+  return true;
+}
+
 bool hasPathSum(TreeNode* root, int sum) {
-        
+  if (root == NULL)
+  {
+    return false;
+  } 
+  if ((sum - root->val) == 0)
+  {
+    if (root->left == NULL && root->right == NULL)
+    {
+      return true;
+    }
+    return false;
+  }
+  return hasPathSumHelper(root, sum);
 }
 
 int main ()

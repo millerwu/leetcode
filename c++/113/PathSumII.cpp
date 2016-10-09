@@ -31,6 +31,10 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+void pathSumHelper(TreeNode* root, int sum, vector<TreeNode*>& stack, vector<int>& output, vector<vector<int> >& res) {
+  
+}
+
  vector<vector<int>> pathSum(TreeNode* root, int sum) {
      
  }
