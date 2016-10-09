@@ -31,13 +31,38 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
-void pathSumHelper(TreeNode* root, int sum, vector<TreeNode*>& stack, vector<int>& output, vector<vector<int> >& res) {
+void pathSumHelper(TreeNode* root, int sum, vector<int> output, vector<vector<int> >& res) {
+  output.push_back(root->val);
+  if ((sum - root->val) == 0)
+  {
+    if (root->left == NULL && root->right == NULL)
+    {
+      res.push_back(output);
+      return res;
+    }
+  }
+  if (root->left != NULL)
+  {
+    pathSumHelper(root->left, sum - root->val, output, res);
+  }
+  if (root->right != NULL)
+  {
+    pathSumHelper(root->right, sum - root->val, output, res);
+  }
   
 }
 
- vector<vector<int>> pathSum(TreeNode* root, int sum) {
-     
- }
+vector<vector<int> > pathSum(TreeNode* root, int sum) {
+  vector<vector<int> > res;
+  if (root == NULL)
+  {
+    /* code */
+    return res;
+  }
+  vector<int> output;
+  pathSumHelper(root, sum, output, res);
+  return res;
+}
 
 int main ()
 {
