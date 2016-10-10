@@ -43,6 +43,17 @@ struct TreeLinkNode {
 };
 
 void connect(TreeLinkNode *root) {
+  if (root == NULL)
+  {
+    return;
+  }
+  if (root->left != NULL)
+  {
+    root->left->next = root->right;
+    root->right->next = root->next!=NULL ? root->next->left : NULL;
+  }
+  connect(root->left);
+  connect(root->right);
     
 }
 
