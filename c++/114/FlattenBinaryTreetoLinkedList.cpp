@@ -38,6 +38,20 @@ struct TreeNode {
 };
 
 void flatten(TreeNode* root) {
+  if (root == NULL || (root->left == NULL && root->right == NULL))
+  {
+    return;
+  }
+  if (root->left != NULL) {
+    TreeNode* node = root->left;
+    while (node->right != NULL) {
+      node = node->right;
+    }
+    node->right = root->right;
+    root->right = root->left;
+    root->left = NULL;
+  }
+  flatten(root->right);
     
 }
 
