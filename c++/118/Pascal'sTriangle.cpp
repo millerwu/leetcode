@@ -17,15 +17,50 @@ Return
 
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 
 using namespace std;
 
-
-vector<vector<int>> generate(int numRows) {
-    
+vector<vector<int> > generate(int numRows) {
+	vector<vector<int> > res;
+	if (numRows <= 0)
+	{
+		return res;
+	}
+	vector<int> row(1, 1);
+	res.push_back(row);
+	
+	for (int i = 2; i <= numRows ; ++i)
+  {
+  	int pre = 1;
+  	for (int j = 1; j < i-1; ++j)
+  	{
+  		int temp = row[j];
+  		row[j] += pre;
+  		pre = temp;
+  	}
+  	row.push_back(1);
+  	res.push_back(row);
+  }    
+  return res;
 }
 
-int main ()
+void printVector(vector<vector<int> > v)
 {
+	for (int i = 0; i < v.size(); ++i)
+	{
+		for (int j = 0; j < v[i].size() ; ++j)
+		{
+			cout << v[i][j] << " ";
+		}
+		cout<< endl;
+	}
+}
+
+int main (int argc, char** argv)
+{
+	int a = atoi(argv[1]);
+	vector<vector<int> > res = generate(a);
+	printVector(res);
 	return 0;
 }
