@@ -35,58 +35,28 @@ struct TreeLinkNode {
 };
 
 void connect(TreeLinkNode *root) {
-    if (root == NULL || (root->left == NULL && root->right == NULL))
+    if (root == NULL)
     {
-      return NULL;
+      return;
     }
-    TreeLinkNode* node = NULL;
-    TreeLinkNode* root_temp = root;
-    while (node == NULL && root_temp != NULL) {
-      node = root_temp->left;
-      if (node == NULL)
+    TreeLinkNode* p = root->next;
+    while (p != NULL) {
+      if (p->left != NULL)
       {
-        node = root_temp->right;
-        if (node == NULL)
-        {
-          root_temp = root_temp->next;
-        }
+        p = p->left;
+        break;
       }
+      if (p->right != NULL)
+      {
+        p = p->right;
+        break;
+      }
+      p = p->next;
     }
-    if (root_temp != NULL)
+    if (root->left != NULL;)
     {
-      TreeLinkNode* next_node = NULL;
-      if (node == root_temp->left)
-      {
-        next_node = root_temp->right;
-        if (next_node == NULL)
-        {
-          root_temp = root_temp->next;
-        }
-      } else {
-        root_temp = root_temp->next;
-      }
-      while (next_node == NULL && root_temp != NULL){
-        next_node = root_temp->left;
-        if (next_node == NULL)
-        {
-          next_node = root_temp->right;
-          if (next_node == NULL)
-          {
-            root_temp = root_temp->next;
-          }
-        }
-      }
-      node->next = next_node;
-      if (node == root_temp->left && next_node == root_temp->right)
-      {
-        /* code */
-        
-      }
-    } else {
-      node->next = NULL;
+      /* code */
     }
-    connect(root->left);
-    connect(root->right);
 }
 
 int main ()
