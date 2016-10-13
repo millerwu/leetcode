@@ -49,7 +49,6 @@ void pathSumHelper(TreeNode* root, int sum, vector<int> output, vector<vector<in
   {
     pathSumHelper(root->right, sum - root->val, output, res);
   }
-  
 }
 
 vector<vector<int> > pathSum(TreeNode* root, int sum) {

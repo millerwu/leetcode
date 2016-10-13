@@ -53,10 +53,19 @@ void connect(TreeLinkNode *root) {
       }
       p = p->next;
     }
-    if (root->left != NULL;)
+    if (root->right != NULL)
     {
-      /* code */
+      root->right->next = p;
     }
+    if (root->left != NULL)
+    {
+      root->left->next = root->right==NULL ? p : root->right;
+    }
+    //use right before than left
+    //if left before than right, in some case, the parent's next is not found, but the child will find it's next.
+    //than it will be error.
+    connect(root->right);
+    connect(root->left);
 }
 
 int main ()
