@@ -26,10 +26,56 @@ struct TreeNode {
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+int maxPathSumHelper(TreeNode* root, int& max) {
+	
+}
+
 int maxPathSum(TreeNode* root) {
     
 }
+
+
+TreeNode* createTree(int a[], int n) {
+  if (n <= 0)
+    return NULL;
+  TreeNode** tree = new TreeNode*[n];
+  // cout << "createTree in" << endl;
+
+  for (int i = 0; i < n; ++i)
+  {
+    if (a[i] == 0)
+    {
+      tree[i] == NULL;
+    } else {
+      tree[i] = new TreeNode(a[i]);
+    }
+  }
+  // cout << "createTree mid" << endl;
+  int pos = 1;
+  for (int i = 0; i<n && pos<n ; ++i)
+  {
+    if (tree[i] != NULL)
+    {
+      tree[i]->left = tree[pos++];
+      if (pos < n)
+      {
+        tree[i]->right = tree[pos++];
+      }
+    }
+  }
+  // cout << "createTree end" << endl;
+  return tree[0];
+}
+
+// int maxPathSum(TreeNode* root) {
+    
+// }
+
 int main ()
 {
+	int a[] = {2, 1, 1, 10, 6, 1, 1};
+	TreeNode* root = createTree(a, sizeof(a)/sizeof(int));
+	int res = maxPathSum(root);
+	cout << "res = " << res << endl;	
 	return 0;
 }
