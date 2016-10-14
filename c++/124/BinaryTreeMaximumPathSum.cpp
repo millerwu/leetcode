@@ -27,11 +27,31 @@ struct TreeNode {
 };
 
 int maxPathSumHelper(TreeNode* root, int& max) {
-	
+	if (root == NULL)
+	{
+		return 0;
+	}
+	int left_max = maxPathSumHelper(root->left, max);
+	int right_max = maxPathSumHelper(root->right, max);
+	int node_max = root->val;
+	cout << "left_max = " << left_max << "; right_max = " << right_max << "; node_max = " << node_max << endl; 
+	if (left_max > 0)
+	{
+		node_max += left_max;
+	}	
+	if (right_max > 0)
+	{
+		node_max += right_max;
+	}
+	max = std::max(node_max, max);
+	cout << "node_max = " << node_max << " max = " << max << endl;
+	return root->val+std::max(0, std::max(left_max, right_max));
 }
 
 int maxPathSum(TreeNode* root) {
-    
+	int max_sum = 0;
+	int total_sum = maxPathSumHelper(root, max_sum);
+	return max(total_sum, max_sum); 
 }
 
 
