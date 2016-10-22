@@ -23,8 +23,10 @@ All words contain only lowercase alphabetic characters.
 #include <iostream>
 #include <vector>
 #include <unordered_set>
-#include <string>
+#include <unordered_map>
 #include <algorithm>
+#include <string>
+#include <queue>
 
 using namespace std;
 
@@ -38,48 +40,39 @@ int differChar(string s1, string s2) {
 		}
 	}
 	return count;
-} 
-
-void ladderLengthHelper(string beginWord, string endWord, unordered_set<string>& wordList, vector<string>& stackList, int& res) {
-	if (differChar(beginWord, endWord) <= 1)
-	{
-		int temp_res = stackList.size() + 2;
-		res = res > temp_res ? temp_res : res;
-		return;
-	}
-	for (auto word : wordList)	
-	{
-		cout << "word = " << word << endl;
-		if (differChar(beginWord, word) == 1)
-		{
-			cout << "beginWord = " << beginWord << endl;
-			wordList.erase(word);
-			cout << "line = " << __LINE__ << endl;
-			stackList.push_back(word);
-			cout << "line = " << __LINE__ << endl;
-			ladderLengthHelper(word, endWord, wordList, stackList, res);
-			cout << "line = " << __LINE__ << endl;
-			stackList.pop_back();	
-			cout << "line = " << __LINE__ << endl;
-			cout << "word1 =  " << word << endl;
-			wordList.insert(word);
-			cout << "line = " << __LINE__ << endl;
-		}
-	}
 }
 
 int ladderLength(string beginWord, string endWord, unordered_set<string>& wordList) {
-  int res = 0;
-  vector<string> outputList;
-  if (beginWord == endWord || wordList.size() <= 0)
-  {
-  	return res;
-  }
-  ladderLengthHelper(beginWord, endWord, wordList, outputList, res);
-  return res;  
+    unordered_map<string, int> dis;
+    dis[beginWord] = 1;
+    queue<string> queue;
+    wordList.insert(endWord);
+    queue.push(beginWord);
+
+    while (queue.size() > 0)
+    {
+        string word = queue.front();
+        queue.pop();
+        cout << "word = " << word << endl;
+
+        if (word == endWord)
+        {
+            break;
+        }
+
+        for (int i = 0; i < word.size(); ++i) {
+            string temp = word;
+            for (int j = 'a'; j <= 'z'; ++j) {
+                temp[i] = j;
+                if (wordList.count(temp) > 0 && dis.count(temp) == 0) {
+                    dis[temp] = dis[word] + 1;
+                    queue.push(temp);
+                }
+            }
+        }
+    }
+    return dis.count(endWord) > 0 ? dis[endWord] : 0;
 }
-
-
 
 int main ()
 {
