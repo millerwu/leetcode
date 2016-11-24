@@ -32,8 +32,26 @@ struct TreeNode {
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+void sumNumbersHelper(TreeNode* root, int& sum, int tempsums) {
+	if (root->left == NULL && root->right == NULL) {
+		sum += tempsums*10 + root->val;
+	}
+	if (root->left != NULL) {
+		sumNumbersHelper(root->left, sum, tempsums*10+root->val);
+	}
+	if (root->right != NULL) {
+		sumNumbersHelper(root->right, sum, tempsums*10+root->val);
+	}
+}
+
 int sumNumbers(TreeNode* root) {
-    
+	int sum = 0;
+	int temp = 0;
+	if (root == NULL) {
+		return 0;
+	}
+	sumNumbersHelper(root, sum, temp);
+	return sum;
 }
 
 int main ()
