@@ -17,16 +17,51 @@ Input: "cbbd"
 Output: "bb"
 */
 
+/*
+ *  use DP to resolve This problem.
+ *
+ */
+
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-string longestPalindrome(string s) {
+string longestPalindrome(string s)
+{
+  vector<vector<bool>> dp(s.size(), vector<bool>(s.size()));
+  for (int i = 0; i < s.size(); ++i) {
+    for (int j = 0; j < s.size(); ++j) {
+      if (i == j) {
+        dp[i][j] = true;
+        continue;
+      }
+      dp[i][j] = false;
+    }
+  }
 
+  int first = 0, second = 0;
+  int res_length = 0;
+
+  for (int i = 1; i < dp.size(); i++) {
+    for (int j = 0; j < i; j++) {
+      if ((dp[i-1][j+1] || i-1 < j+1) && s[i] == s[j]) {
+        dp[i][j] = true;
+        if (i-j > res_length) {
+          res_length = i - j;
+          first = i;
+          second = j;
+        }
+      }
+    }
+  }
+  return s.substr(second, first-second+1);
 }
 
-int main ()
+int main()
 {
-	return 0;
+  string s = "babad";
+  string res = longestPalindrome(s);
+  cout << "res = " << res << endl;
+  return 0;
 }

@@ -22,7 +22,15 @@ using namespace std;
 int main ()
 {
 	bool isPalindrome(int x) {
+		if (x < 0) return false;
 
+		int x_ = 0;
+		int a_x = x;
+		while (a_x > 0) {
+			x_ = x_*10 + a_x%10;
+			a_x = a_x /10;
+		}
+		return x == x_;
 	}
 	return 0;
 }
