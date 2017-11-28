@@ -30,7 +30,26 @@ Any room can contain threats or power-ups, even the first room the knight enters
 using namespace std;
 
 int calculateMinimumHP(vector<vector<int>>& dungeon) {
+	int row = dungeon.size();
+	int col =  row > 0 ? dungeon[0].size() : 0;
+	if (row <= 0 && col <= 0 ) {
+		return 0;
+	} 
+	int dp[row][col];
+	memset(dp, 0, sizeof dp);
+	for (int i = row-1; i >= 0; --i) {
+		for (int j = col-1; j >= 0; --j) {
+			if (i == row-1 && j == col-1) {
+				dp[i][j] = max(1-dungeon[i][j], 1);
+			} else {
+				int h1 = (i == row-1) ? INT_MAX : max(dp[i+1][j]-dungeon[i][j], 1);
+				int h2 = (j == col-1) ? INT_MAX : max(dp[i][j+1]-dungeon[i][j], 1);
 
+				dp[i][j] = min(h1, h2);
+			}
+		}
+	}
+	return dp[0][0];
 }
 
 int main ()
